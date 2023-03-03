@@ -75,6 +75,7 @@ class UsersController extends Controller
                 'Registration successful',
                 Response::HTTP_OK,
                 [
+                    'name' => auth()->user()->name,
                     'access_token' => $token,
                     'token_type' => 'bearer',
                     'expires_in' => auth()->factory()->getTTL() * 60

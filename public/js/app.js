@@ -5613,7 +5613,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.date = reservation.startDateTime;
       this.duration = reservation.duration;
       this.roomId = reservation.roomId;
-      console.log(reservation);
     },
     updateReservation: function updateReservation() {
       var _this6 = this;
@@ -5880,7 +5879,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         cookie[key.trim()] = value;
       });
       this.name = cookie.userName;
-      console.log(this.name);
     },
     logout: function logout() {
       document.cookie = "accessToken=";

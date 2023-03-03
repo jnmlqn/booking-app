@@ -7,6 +7,18 @@ use App\Models\User;
 class UsersRepository
 {
     /**
+     * @param string $id
+     * 
+     * @return bool
+     */
+    public function checkIfExists(string $id): bool
+    {
+        $user = User::find($id);
+
+        return !is_null($user);
+    }
+
+    /**
      * @param  string  $name
      * @param  string  $email
      * @param  string  $password

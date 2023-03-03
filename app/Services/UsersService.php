@@ -17,6 +17,16 @@ class UsersService
     }
 
     /**
+     * @param string $id
+     * 
+     * @return bool
+     */
+    public function checkIfExists(string $id): bool
+    {
+        return $this->usersRepository->checkIfExists($id);
+    }
+
+    /**
      * @param  string  $name
      * @param  string  $email
      * @param  string  $password

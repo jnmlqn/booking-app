@@ -300,7 +300,6 @@
                 this.date = reservation.startDateTime;
                 this.duration = reservation.duration;
                 this.roomId = reservation.roomId;
-                console.log(reservation);
             },
 
             updateReservation() {

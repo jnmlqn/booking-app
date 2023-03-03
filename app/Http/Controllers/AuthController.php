@@ -47,10 +47,8 @@ class AuthController extends Controller
         $token = auth()->attempt($credentials);
 
         if (!$token) {
-            return response()->json(
-                [
-                    'error' => 'Unauthorized'
-                ],
+            return $this->apiResponse(
+                'Unauthorized',
                 Response::HTTP_UNAUTHORIZED
             );
         }
@@ -63,10 +61,20 @@ class AuthController extends Controller
      */
     public function me(): Response
     {
+        $user = auth()->user();
+        $isUserExists = $this->usersService->checkIfExists($user->id);
+
+        if (!$isUserExists) {
+            return $this->apiResponse(
+                'Unauthorized',
+                Response::HTTP_UNAUTHORIZED
+            );
+        }
+
         return $this->apiResponse(
             'User data fetched Successfully',
             Response::HTTP_OK,
-            json_decode(json_encode(auth()->user()), true)
+            json_decode(json_encode($user, true))
         );
     }
 

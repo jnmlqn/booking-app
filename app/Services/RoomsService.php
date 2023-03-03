@@ -60,6 +60,12 @@ class RoomsService
         string $roomId,
         ?string $reservationId = null
     ): bool {
+        $dayOfWeek = date('N', strtotime($date));
+
+        if ($dayOfWeek == 6 || $dayOfWeek == 7) {
+            return false;
+        }
+
         if (
             $startTime < self::ROOM_AVAILABLE_FROM
             || $endTime > self::ROOM_AVAILABLE_TO

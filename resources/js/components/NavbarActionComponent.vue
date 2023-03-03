@@ -30,7 +30,6 @@
                     cookie[key.trim()] = value;
                 });
                 this.name = cookie.userName;
-                console.log(this.name)
             },
 
             logout() {
