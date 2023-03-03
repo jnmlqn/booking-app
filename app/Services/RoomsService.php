@@ -49,6 +49,7 @@ class RoomsService
      * @param  string  $startTime
      * @param  string  $endTime
      * @param  string  $roomId
+     * @param  string|null  $reservationId
      * 
      * @return bool 
      */
@@ -56,9 +57,14 @@ class RoomsService
         string $date,
         string $startTime,
         string $endTime,
-        string $roomId
+        string $roomId,
+        ?string $reservationId = null
     ): bool {
-        if ($startTime < self::ROOM_AVAILABLE_FROM || $endTime > self::ROOM_AVAILABLE_TO) {
+        if (
+            $startTime < self::ROOM_AVAILABLE_FROM
+            || $endTime > self::ROOM_AVAILABLE_TO
+            || ($date . ' ' . $startTime) < date('Y-m-d H:i')
+        ) {
             return false;
         }
 
@@ -66,7 +72,8 @@ class RoomsService
             $date,
             $startTime,
             $endTime,
-            $roomId
+            $roomId,
+            $reservationId
         );
     }
 }

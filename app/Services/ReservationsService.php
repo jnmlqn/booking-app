@@ -61,13 +61,17 @@ class ReservationsService
                     $status = self::STATUS_ENDED;
                 }
 
+                $dateDiff = date_diff(new \DateTime($reservation['end_time']), new \DateTime($reservation['start_time']));
+
                 return [
                     'id' => $reservation['id'],
-                    'room_id' => $reservation['room_id'],
-                    'room_name' => $reservation['room_name'],
-                    'reservationDate' => $reservation['reservation_date'],
-                    'startTime' => $reservation['start_time'],
-                    'endTime' => $reservation['end_time'],
+                    'roomId' => $reservation['room_id'],
+                    'roomName' => $reservation['room_name'],
+                    'reservationDate' => date('M d, Y', strtotime($reservation['reservation_date'])),
+                    'startTime' => date('h:i A', strtotime($reservation['start_time'])),
+                    'endTime' => date('h:i A', strtotime($reservation['end_time'])),
+                    'duration' => $dateDiff->i,
+                    'startDateTime' => $startDate,
                     'status' => $status
                 ];
             },
@@ -129,6 +133,11 @@ class ReservationsService
         string $roomId
     ): bool {
         $reservation = $this->reservationsRepository->getReservation($id);
+
+        if (is_null($reservation)) {
+            throw new ReservationsException('Reservation not found', 1);
+        }
+
         $startDate = date('Y-m-d H:i', strtotime($reservation['reservation_date'] . ' ' . $reservation['start_time']));
         $endDate = date('Y-m-d H:i', strtotime($reservation['reservation_date'] . ' ' . $reservation['end_time']));
         
@@ -148,7 +157,8 @@ class ReservationsService
             $date,
             $startTime,
             $endTime,
-            $roomId
+            $roomId,
+            $id
         );
 
         if (!$isAvailable) {

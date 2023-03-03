@@ -23,6 +23,7 @@ class RoomsRepository
      * @param  string  $startTime
      * @param  string  $endTime
      * @param  string  $roomId
+     * @param  string|null $reservationId
      * 
      * @return bool 
      */
@@ -30,7 +31,8 @@ class RoomsRepository
         string $date,
         string $startTime,
         string $endTime,
-        string $roomId
+        string $roomId,
+        ?string $reservationId = null
     ): bool {
     	$reservationsCount = Reservation::where('room_id', $roomId)
     		->where('reservation_date', $date)
@@ -42,6 +44,9 @@ class RoomsRepository
     						->where('end_time', '>', $endTime);
     				});
     		})
+            ->when(!is_null($reservationId), function ($q) use ($reservationId) {
+                $q->where('id', '!=', $reservationId);
+            })
     		->count();
 
     	return $reservationsCount < 1;

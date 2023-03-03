@@ -28,9 +28,9 @@ class ReservationsRepository
     /**
      * @param  string $id
      * 
-     * @return Collection
+     * @return Reservation|null
      */
-    public function getReservation(string $id): Reservation
+    public function getReservation(string $id): ?Reservation
     {
     	$user = auth()->user();
 

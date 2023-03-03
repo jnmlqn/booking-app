@@ -38,6 +38,7 @@ Route::group(
                 Route::resources([
                     'reservations' => \App\Http\Controllers\ReservationsController::class
                 ]);
+                Route::get('export/reservations', 'App\Http\Controllers\ReservationsController@exportData');
             }
         );
     }

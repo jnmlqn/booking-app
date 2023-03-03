@@ -150,4 +150,46 @@ class ReservationsController extends Controller
 
         return $this->apiResponse('Reservation successfully deleted');
     }
+
+    /**
+     * @return Response
+     */
+    public function exportData(): Response
+    {
+        $reservations = $this->reservationsService->getReservations();
+
+        $headers = [
+            'Room Name',
+            'Reservation Date',
+            'Start Time',
+            'End Time',
+            'Status',
+        ];
+
+        $rows = [];
+
+        foreach ($reservations as $reservation) {
+            $rows[] = [
+                $reservation['roomName'],
+                $reservation['reservationDate'],
+                $reservation['startTime'],
+                $reservation['endTime'],
+                $reservation['status'],
+            ];
+        }
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=csv_export.csv');
+
+        $output = fopen( 'php://output', 'w' );
+        ob_end_clean();
+
+        fputcsv($output, $headers);
+
+        foreach ($rows as $row) {
+            fputcsv($output, $row);
+        }
+
+        exit();
+    }
 }

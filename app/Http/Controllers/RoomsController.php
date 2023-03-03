@@ -71,6 +71,7 @@ class RoomsController extends Controller
             $request->get('startTime'),
             $endTime,
             $request->get('roomId'),
+            $request->get('reservationId', null),
         );
 
         return $this->apiResponse(
